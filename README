@@ -1,0 +1,54 @@
+1) Introduction
+	Welcome to the Carrow Lab codebase!
+	This codebase contains bash and python scripts for automating computational chemistry research.
+	It also contains several files containing the Orca settings for default levels of theory in the Carrow Lab.
+
+	For the codebase help manual, use 'carrow_help'.
+	For help with a given command, pass 'help' as an argument.
+
+2) Installation
+	For this codebase to work properly, install it in any desired directory.
+	Ensure that all commands are configured as executables using 'chmod +x'.
+	e.g. chmod +x launch_orca_4
+	Then, create/update the CARROW_CODEBASE, USER_EMAIL, and PATH variables with the following commands:
+
+	```
+	CARROW_CODEBASE="/project/carrow/codebase"
+	export CARROW_CODEBASE
+
+	USER_EMAIL="user@email.com"
+	export USER_EMAIL
+	
+	PATH="$CARROW_CODEBASE:$PATH"
+	export PATH
+	```
+
+	This can be best accomplished in the user's .bashrc file.
+	For an example of how this can be done (as well as other suggested edits), see example_bashrc.
+
+3) Maintenance
+	I (ARS) have decided getting the Carrow lab on Github is unrealistic. As such, these are the standards for code maintenance:
+	
+	i)   Each script contains a string dedicated to version control.
+	     As this codebase is curated, authors should document their changes.
+
+	ii)  All python codes are saved in python_scripts/.
+	     When editing existing code, always start by copying the existing code to a new version number
+             e.g. cp launch_orca_4_v2_1 launch_orca_4_v2_2.py
+	     Make all edits to the new version
+
+	iii) All shell scripts have a default script (e.g. launch_orca_4) and a test script (e.g. test_launch_orca_4).
+	     When testing new python codes or new shell scripts, always edit the test script, not the default.
+	     
+	iv)  Only after code has been extensively tested can the default code be updated.
+	     At this point, move the existing default code to legacy_shells/ 
+	     e.g. mv launch_orca_4 legacy_shells/launch_orca_4_v1_2
+	     Make sure to use chmod -x to remove executable permissions from legacy shell scripts
+	     e.g. chmod -x launch_orca_4_v1_2
+	     Then, rename the test shell to the default shell
+	     e.g. mv test_launch_orca_4 launch_orca_4
+	     Lastly, copy the new default shell to a test shell
+	     e.g. cp launch_orca_4 test_launch_orca_4
+
+	Remember: Other people rely on a working, well documented codebase!
+	Not following these steps could result in serious productivity problems in the Carrow lab!

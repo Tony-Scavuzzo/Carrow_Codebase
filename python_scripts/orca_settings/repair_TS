@@ -1,0 +1,11 @@
+#Settings for removing an extra negative frequency from a TS
+#these settings are part of a sequence of increasingly rigorous calculations
+#These settings use a quantum mechanical hessian to better find the minimum.
+
+! B3LYP D3 def2-SVP RIJCOSX autoaux optTS freq
+%pal NPROCS 12 end
+%geom
+	Calc_Hess true
+	Recalc_Hess 20
+	#NumHess true
+end

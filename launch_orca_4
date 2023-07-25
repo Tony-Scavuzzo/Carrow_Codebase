@@ -1,0 +1,51 @@
+#!/bin/sh
+
+# Edit History
+# version Initials    Date            Summary
+# 1.0     ARS         25-Jun-2023     Shell script simply launches launch_orca_4.py
+# 1.1     ARS         21-Jul-2023     added help manual and updated argument list for launch_orca_4_v3_0.py
+# 1.2     ARS         23-Jul-2023     modified help command to trigger if 'help' is any of the arguments passed and updated path name
+
+error_message="Error: Too many arguments provided.
+Usage: launch_orca_4 dd:hh:mm:ss nM settings_file
+Use 'launch_orca_4 help' for help"
+
+manual="
+        launch_orca_4 manual
+
+        Usage: launch_orca_4 dd:hh:mm:ss nM settings_file
+
+        This script automates the creation of batch orca jobs
+        It operates on every .xyz file in the working directory.
+        Each file must be formatted as {name}_{charge}_{spin}.xyz
+        For negative charges, use 'm' (e.g. methoxide_m1_1.xyz)
+
+       	This script takes three optional arguments: job time,
+        memory per core, and a settings file.
+        The job time should be formatted as dd:hh:mm:ss and
+        defaults to 00:01:00:00 if none is provided.
+        The memory per core should be provided in megabytes followed
+        by an 'M' (e.g. 2000M). If none is provided, this script estimates
+        memory demands based on the contents of the .xyz files.
+        The settings file can be specified as either a path or a file
+        in the working directory. This file should contain a
+        descriptive comment and the orca keywords that will be used in
+        the batch job. If none is provided, an interactive menu will
+        appear suggesting default settings which are found at
+        /project/carrow/bin/python_scripts/orca_settings/.
+"
+
+#Prints help manual if "help" is passed as any part of argument
+if [[ "$*" == *"help"* ]]; then
+	echo "$manual"
+
+#Prints error message if too many arguments are passed and none are "help"
+elif [ $# -gt 3 ]; then
+	echo "$error_message"
+	exit 1
+
+#Normal usage of command
+else
+	python $CARROW_CODEBASE/python_scripts/launch_orca_4_v3_0.py $USER_EMAIL $CARROW_CODEBASE $1 $2 $3 
+	sbatch ${PWD##*/}.sh
+fi
